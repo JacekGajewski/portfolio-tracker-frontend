@@ -1,0 +1,17 @@
+<h4>Input form</h4>
+<hr>
+<div>
+  <input type="text"
+         class="form-control"
+         [(ngModel)]="ticker">
+
+  <input type="text"
+         class="form-control"
+         [(ngModel)]="stockExchange">
+
+</div>
+
+
+<button class="btn btn-primary"
+        (click)="check()">Check price
+</button>

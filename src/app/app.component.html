@@ -1,0 +1,11 @@
+<div class="container">
+  <h4>Portfolio tracker</h4>
+
+  <app-form (price)="newPrice($event)"></app-form>
+
+  <p>{{price}}</p>
+
+  <hr>
+
+  <app-pie-chart></app-pie-chart>
+</div>
