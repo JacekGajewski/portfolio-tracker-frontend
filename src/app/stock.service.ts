@@ -1,17 +1,14 @@
 import {Injectable, Output, EventEmitter} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-
+import {PortfolioDTO} from './model/PortfolioDTO';
 
 @Injectable()
 export class StockService {
 
-  @Output() betsListener = new EventEmitter();
-  private baseUrl = 'http://localhost:8080/stocks/closed/MSFT';
+  @Output() portfolioListener = new EventEmitter();
 
-  constructor(private http: HttpClient) {
+  onEmit(portfolio: PortfolioDTO): void {
+    this.portfolioListener.emit(portfolio.positions);
   }
 
-  getBet(id: string) {
-    return this.http.get(this.baseUrl);
-  }
 }

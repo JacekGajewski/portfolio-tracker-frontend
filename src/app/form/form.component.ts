@@ -1,5 +1,8 @@
 import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {PortfolioDTO} from '../model/PortfolioDTO';
+import {StockService} from '../stock.service';
 
 @Component({
   selector: 'app-form',
@@ -8,29 +11,55 @@ import {HttpClient} from '@angular/common/http';
 })
 export class FormComponent implements OnInit {
 
-  private baseUrl = 'http://localhost:8080/stocks/price/';
+  tickerForm: FormGroup;
 
+  private baseUrl = 'http://localhost:8080/stocks/price/';
+  private portfolioUrl = 'http://localhost:8080/portfolio/1';
+
+  portfolio: PortfolioDTO;
   ticker = '';
   @Output() price = new EventEmitter<string>();
   stockExchange: any;
+  amount: number;
 
-  constructor(private http: HttpClient) {
+  data: {
+    'ticker': 'fgh'
+  };
+
+  constructor(private http: HttpClient, private stockService: StockService) {
+    this.tickerForm = new FormGroup({
+      ticker: new FormControl(null, Validators.required),
+      stockExchange: new FormControl(null, Validators.required),
+      amount: new FormControl(null, Validators.required)
+    });
   }
 
   ngOnInit(): void {
   }
 
-  check(): void {
-    this.http.get(this.getUrl()).subscribe(
-      (data: string) => {
-        this.price.emit(data);
-        console.log(data);
-      }
-    );
-  }
-
   private getUrl(): string {
-    return this.baseUrl + this.stockExchange + '/' + this.ticker;
+    return this.baseUrl +
+      this.tickerForm.get('stockExchange').value +
+      '/' + this.tickerForm.get('ticker').value;
   }
 
+  postData(portfolioDTO: PortfolioDTO): void {
+    this.http.post(this.portfolioUrl, portfolioDTO).subscribe(
+      (response: PortfolioDTO) => {
+        this.stockService.onEmit(response);
+        this.portfolio = response;
+        // console.log(response);
+      });
+  }
+
+  onSubmit(): void {
+    const dto = new PortfolioDTO(
+      this.tickerForm.get('ticker').value,
+      this.tickerForm.get('amount').value,
+      'STOCK',
+      this.tickerForm.get('stockExchange').value
+    );
+    // console.log(dto);
+    this.postData(dto);
+  }
 }

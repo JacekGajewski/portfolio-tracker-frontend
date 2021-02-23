@@ -1,17 +1,38 @@
 <h4>Input form</h4>
 <hr>
-<div>
-  <input type="text"
-         class="form-control"
-         [(ngModel)]="ticker">
-
-  <input type="text"
-         class="form-control"
-         [(ngModel)]="stockExchange">
-
+<div class="container">
+  <form [formGroup]="tickerForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col-sm-2">
+        <label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Ticker"
+            formControlName="ticker">
+        </label>
+      </div>
+      <div class="col-sm-2">
+        <label>
+          <input type="text"
+                 class="form-control"
+                 placeholder="Stock exchange"
+                 formControlName="stockExchange">
+        </label>
+      </div>
+      <div class="col-sm-2">
+        <label>
+          <input type="number"
+                 class="form-control"
+                 placeholder="Amount"
+                 formControlName="amount">
+        </label>
+      </div>
+      <div class="col-sm-2">
+        <button class="btn btn-primary">ADD
+        </button>
+      </div>
+    </div>
+  </form>
 </div>
 
-
-<button class="btn btn-primary"
-        (click)="check()">Check price
-</button>
