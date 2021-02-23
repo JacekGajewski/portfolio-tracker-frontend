@@ -13,7 +13,7 @@ import {HttpClient} from '@angular/common/http';
 export class StockListComponent implements OnInit {
 
   stocks: Array<PositionDTO>;
-  portfolioUrl = 'http://localhost:8080/portfolio/1';
+  portfolioUrl = 'https://portfolio-tracker-backnd.herokuapp.com/portfolio/1';
 
   constructor(private stockService: StockService,
               private http: HttpClient) { }

@@ -23,7 +23,7 @@ export class StockComponent implements OnInit {
     this.tickerForm = new FormGroup({
       amount: new FormControl(this.position.amount, Validators.required)
     });
-    this.positionUrl = 'http://localhost:8080/position/' + this.position.id;
+    this.positionUrl = 'https://portfolio-tracker-backnd.herokuapp.com/position/' + this.position.id;
   }
 
   updateVisible(): boolean {

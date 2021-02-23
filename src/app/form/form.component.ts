@@ -13,8 +13,8 @@ export class FormComponent implements OnInit {
 
   tickerForm: FormGroup;
 
-  private baseUrl = 'http://localhost:8080/stocks/price/';
-  private portfolioUrl = 'http://localhost:8080/portfolio/1';
+  private baseUrl = 'https://portfolio-tracker-backnd.herokuapp.com/stocks/price/';
+  private portfolioUrl = 'https://portfolio-tracker-backnd.herokuapp.com/portfolio/1';
 
   portfolio: PortfolioDTO;
   ticker = '';
