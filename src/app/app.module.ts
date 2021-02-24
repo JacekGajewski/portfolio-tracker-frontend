@@ -9,6 +9,7 @@ import { PieChartComponent } from './chart/pie-chart.component';
 import { StockListComponent } from './portfolio/stock-list/stock-list.component';
 import { FormComponent } from './form/form.component';
 import { StockComponent } from './portfolio/stock-list/stock/stock.component';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { StockComponent } from './portfolio/stock-list/stock/stock.component';
     PieChartComponent,
     StockListComponent,
     FormComponent,
-    StockComponent
+    StockComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
