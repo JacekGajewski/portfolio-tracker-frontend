@@ -2,7 +2,6 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {PositionDTO} from '../model/PositionDTO';
 import {StockService} from '../stock.service';
 import {BaseChartDirective} from 'ng2-charts';
-import {compareSegments} from '@angular/compiler-cli/src/ngtsc/sourcemaps/src/segment_marker';
 
 @Component({
   selector: 'app-pie-chart',
@@ -43,11 +42,11 @@ export class PieChartComponent implements OnInit {
       this.removeFromChart(positions);
     }
     for (const position of positions) {
-      const numberr = this.pieChartLabels.indexOf(position.stock.ticker);
+      const numberr = this.pieChartLabels.indexOf(position.ticker);
       if (numberr !== -1) {
         this.pieChartData[numberr] = position.value;
       } else {
-        this.pieChartLabels.push(position.stock.ticker);
+        this.pieChartLabels.push(position.ticker);
         this.pieChartData.push(position.value);
       }
     }
@@ -68,7 +67,7 @@ export class PieChartComponent implements OnInit {
   getListOfNewLabels(positions: Array<PositionDTO>): Array<string> {
     const result = [];
     for (const position of positions) {
-      result.push(position.stock.ticker);
+      result.push(position.ticker);
     }
     return result;
   }

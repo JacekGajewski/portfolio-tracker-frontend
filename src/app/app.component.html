@@ -1,21 +1,4 @@
 <app-header></app-header>
 <div class="container">
-
-  <app-form (price)="newPrice($event)"></app-form>
-
-  <p>{{price}}</p>
-
-  <hr>
-<div class="row">
-  <div class="col-6">
-    <app-stock-list></app-stock-list>
-  </div>
-
-  <div class="col-6">
-    <app-pie-chart></app-pie-chart>
-  </div>
-</div>
-
-
-
+  <router-outlet></router-outlet>
 </div>

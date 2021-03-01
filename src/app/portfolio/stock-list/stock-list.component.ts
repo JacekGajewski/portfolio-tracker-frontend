@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {StockService} from '../../stock.service';
-import {StockDTO} from '../../model/StockDTO';
 import {PositionDTO} from '../../model/PositionDTO';
-import {PortfolioDTO} from '../../model/PortfolioDTO';
 import {HttpClient} from '@angular/common/http';
+import {AuthService} from '../../auth/auth.service';
 
 @Component({
   selector: 'app-stock-list',
@@ -13,20 +12,29 @@ import {HttpClient} from '@angular/common/http';
 export class StockListComponent implements OnInit {
 
   stocks: Array<PositionDTO>;
-  portfolioUrl = 'http://localhost:8080/portfolio/1';
+  portfolioUrl = 'http://localhost:8080/portfolio/user/';
 
   constructor(private stockService: StockService,
-              private http: HttpClient) { }
+              private http: HttpClient,
+              private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.http.get(this.portfolioUrl).subscribe(
-      (response: PortfolioDTO) => {
-        this.stockService.onEmit(response);
+    this.stockService.getPortfolio().subscribe(
+      (response) => {
+        this.stockService.onEmit(response.body);
       });
 
     this.stockService.portfolioListener.subscribe(
-      data => this.stocks = data
+      data => {
+        this.stocks = data;
+        console.log('data');
+        console.log(data);
+      }
     );
+  }
+
+  private getPortfolioUrl(): string {
+    return this.portfolioUrl + this.authService.user.id;
   }
 
 }

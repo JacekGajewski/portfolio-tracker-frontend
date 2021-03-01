@@ -3,6 +3,8 @@ import {HttpClient} from '@angular/common/http';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {PortfolioDTO} from '../model/PortfolioDTO';
 import {StockService} from '../stock.service';
+import {PositionDTO} from '../model/PositionDTO';
+import {AuthService} from '../auth/auth.service';
 
 @Component({
   selector: 'app-form',
@@ -14,11 +16,10 @@ export class FormComponent implements OnInit {
   tickerForm: FormGroup;
 
   private baseUrl = 'http://localhost:8080/stocks/price/';
-  private portfolioUrl = 'http://localhost:8080/portfolio/1';
+  private portfolioUrl = 'http://localhost:8080/portfolio/';
 
   portfolio: PortfolioDTO;
   ticker = '';
-  @Output() price = new EventEmitter<string>();
   stockExchange: any;
   amount: number;
 
@@ -26,7 +27,8 @@ export class FormComponent implements OnInit {
     'ticker': 'fgh'
   };
 
-  constructor(private http: HttpClient, private stockService: StockService) {
+  constructor(private http: HttpClient,
+              private stockService: StockService) {
     this.tickerForm = new FormGroup({
       ticker: new FormControl(null, Validators.required),
       stockExchange: new FormControl(null, Validators.required),
@@ -43,23 +45,26 @@ export class FormComponent implements OnInit {
       '/' + this.tickerForm.get('ticker').value;
   }
 
-  postData(portfolioDTO: PortfolioDTO): void {
-    this.http.post(this.portfolioUrl, portfolioDTO).subscribe(
+  postData(portfolioDTO: PositionDTO): void {
+    this.http.post(this.getPortfolioUrl(), portfolioDTO).subscribe(
       (response: PortfolioDTO) => {
+        console.log(response);
         this.stockService.onEmit(response);
         this.portfolio = response;
-        // console.log(response);
       });
   }
 
   onSubmit(): void {
-    const dto = new PortfolioDTO(
+    const dto = new PositionDTO(
       this.tickerForm.get('ticker').value,
       this.tickerForm.get('amount').value,
-      'STOCK',
-      this.tickerForm.get('stockExchange').value
+      this.tickerForm.get('stockExchange').value,
+      'STOCK'
     );
-    // console.log(dto);
     this.postData(dto);
+  }
+
+  private getPortfolioUrl(): string {
+    return this.portfolioUrl + this.stockService.portfolioId;
   }
 }

@@ -8,8 +8,8 @@
 
 <form [formGroup]="tickerForm" (ngSubmit)="onUpdate()">
   <div class="row">
-    <span class="col-sm-2 input-group-text">{{position.stock.ticker}}</span>
-    <span class="col-sm-2 input-group-text">{{position.stock.value}}</span>
+    <span class="col-sm-2 input-group-text">{{position.ticker}}</span>
+    <span class="col-sm-2 input-group-text">{{position.value}}</span>
     <div class="col-sm-2">
       <label>
         <input type="text"

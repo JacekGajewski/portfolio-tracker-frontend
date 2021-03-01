@@ -11,7 +11,11 @@
           <a class="nav-link active" aria-current="page" href="#">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
+          <a
+            class="nav-link"
+            routerLinkActive="active"
+            routerLink="/form">
+            Form</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button"
@@ -30,7 +34,13 @@
       </ul>
       <ul class="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
         <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Login</a>
+          <a class="nav-link"
+             routerLinkActive="active"
+             routerLink="/auth"
+             tabindex="-1"
+             aria-disabled="true"
+             [hidden]="loggedIn">
+            Login</a>
         </li>
       </ul>
 
