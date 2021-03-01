@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {AuthService} from './auth/auth.service';
+import {PositionDTO} from './model/PositionDTO';
 
 @Injectable()
 export class StockService {
@@ -16,7 +17,7 @@ export class StockService {
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) {
   }
 
-  getPortfolio(): Observable<HttpResponse<PortfolioDTO>>{
+  getPortfolio(): Observable<HttpResponse<PortfolioDTO>> {
     return this.http.get<PortfolioDTO>(this.getPortfolioUrl(),
       {
         observe: 'response',
@@ -24,8 +25,16 @@ export class StockService {
       });
   }
 
+  addPositionToPortfolio(positionDTO: PositionDTO): Observable<PortfolioDTO> {
+    return this.http.post<PortfolioDTO>(this.getPositionUrl(), positionDTO);
+  }
+
   private getPortfolioUrl(): string {
     return this.portfolioUrl + this.authService.user.id;
+  }
+
+  private getPositionUrl(): string {
+    return this.portfolioUrl + this.portfolioId;
   }
 
   onEmit(portfolio: PortfolioDTO): void {

@@ -1,10 +1,9 @@
-import {Component, OnInit, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {PortfolioDTO} from '../model/PortfolioDTO';
 import {StockService} from '../stock.service';
 import {PositionDTO} from '../model/PositionDTO';
-import {AuthService} from '../auth/auth.service';
 
 @Component({
   selector: 'app-form',
@@ -14,9 +13,6 @@ import {AuthService} from '../auth/auth.service';
 export class FormComponent implements OnInit {
 
   tickerForm: FormGroup;
-
-  private baseUrl = 'http://localhost:8080/stocks/price/';
-  private portfolioUrl = 'http://localhost:8080/portfolio/';
 
   portfolio: PortfolioDTO;
   ticker = '';
@@ -39,16 +35,9 @@ export class FormComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  private getUrl(): string {
-    return this.baseUrl +
-      this.tickerForm.get('stockExchange').value +
-      '/' + this.tickerForm.get('ticker').value;
-  }
-
-  postData(portfolioDTO: PositionDTO): void {
-    this.http.post(this.getPortfolioUrl(), portfolioDTO).subscribe(
-      (response: PortfolioDTO) => {
-        console.log(response);
+  postData(positionDTO: PositionDTO): void {
+    this.stockService.addPositionToPortfolio(positionDTO).subscribe(
+      (response) => {
         this.stockService.onEmit(response);
         this.portfolio = response;
       });
@@ -62,9 +51,5 @@ export class FormComponent implements OnInit {
       'STOCK'
     );
     this.postData(dto);
-  }
-
-  private getPortfolioUrl(): string {
-    return this.portfolioUrl + this.stockService.portfolioId;
   }
 }
