@@ -32,7 +32,7 @@ export class StockComponent implements OnInit {
 
   onUpdate(): void{
     this.position.amount = +this.tickerForm.get('amount').value;
-    this.http.post(this.positionUrl, this.position).subscribe(
+    this.stockService.updatePosition(this.position).subscribe(
       (response: PortfolioDTO) => {
         this.stockService.onEmit(response);
       });

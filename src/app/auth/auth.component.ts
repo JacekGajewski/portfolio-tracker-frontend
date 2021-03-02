@@ -30,6 +30,7 @@ export class AuthComponent {
     // let authObsv: Observable<object>;
 
     this.isLoading = true;
+    console.log('loading');
     if (this.isLoginMode) {
       this.authService.login(username, pass).subscribe(responseData => {
         this.isLoading = false;
@@ -37,6 +38,8 @@ export class AuthComponent {
         console.log(error);
         this.error = 'Invalid login or password';
         this.isLoading = false;
+        console.log('stop');
+
       });
     } else {
       this.authService.signup(username, pass).subscribe(responseData => {
@@ -45,10 +48,12 @@ export class AuthComponent {
           this.info = 'Successful signup';
           this.onSwitchMode();
         }
+        console.log('stop');
         this.isLoading = false;
       }, error => {
         console.log(error);
         this.error = error.error.message;
+        console.log('stop');
         this.isLoading = false;
       });
     }

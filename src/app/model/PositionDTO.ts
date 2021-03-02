@@ -3,6 +3,7 @@ export class PositionDTO {
   public ticker: string;
   public stockExchange: string;
   public amount: number;
+  public stockPrice: number;
   public value: number;
   public sector: string;
 

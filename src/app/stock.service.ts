@@ -12,13 +12,14 @@ export class StockService {
   @Output() portfolioListener = new EventEmitter();
 
   portfolioId: number;
-  portfolioUrl = 'http://localhost:8080/portfolio/user/';
+  portfolioUrl = 'http://localhost:8080/portfolio/';
+  positionUrl = 'http://localhost:8080/position/';
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) {
   }
 
   getPortfolio(): Observable<HttpResponse<PortfolioDTO>> {
-    return this.http.get<PortfolioDTO>(this.getPortfolioUrl(),
+    return this.http.get<PortfolioDTO>(this.getUserPortfolioUrl(),
       {
         observe: 'response',
         headers: new HttpHeaders({Authorization: this.authService.user.token})
@@ -26,21 +27,33 @@ export class StockService {
   }
 
   addPositionToPortfolio(positionDTO: PositionDTO): Observable<PortfolioDTO> {
-    return this.http.post<PortfolioDTO>(this.getPositionUrl(), positionDTO);
+    return this.http.post<PortfolioDTO>(this.getPortfolioUrl(), positionDTO,
+      {
+        headers: new HttpHeaders({Authorization: this.authService.user.token})
+      });
+  }
+
+  updatePosition(position: PositionDTO): Observable<PortfolioDTO> {
+    return this.http.post<PortfolioDTO>(this.getPositionUrl(position), position,
+      {
+      headers: new HttpHeaders({Authorization: this.authService.user.token})
+    });
+  }
+
+  private getPositionUrl(position: PositionDTO): string {
+    return this.positionUrl + position.id;
   }
 
   private getPortfolioUrl(): string {
-    return this.portfolioUrl + this.authService.user.id;
+    return this.portfolioUrl + this.portfolioId;
   }
 
-  private getPositionUrl(): string {
-    return this.portfolioUrl + this.portfolioId;
+  private getUserPortfolioUrl(): string {
+    return this.portfolioUrl + 'user/' + this.authService.user.id;
   }
 
   onEmit(portfolio: PortfolioDTO): void {
     this.portfolioId = portfolio.portfolioId;
     this.portfolioListener.emit(portfolio.positions);
   }
-
-
 }

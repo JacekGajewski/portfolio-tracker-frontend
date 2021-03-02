@@ -11,6 +11,7 @@ import { FormComponent } from './form/form.component';
 import { StockComponent } from './portfolio/stock-list/stock/stock.component';
 import { HeaderComponent } from './header/header.component';
 import { AuthComponent } from './auth/auth.component';
+import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { AuthComponent } from './auth/auth.component';
     StockComponent,
     HeaderComponent,
     AuthComponent,
+    LoadingSpinnerComponent,
   ],
   imports: [
     BrowserModule,

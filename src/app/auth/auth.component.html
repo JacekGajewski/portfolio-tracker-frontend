@@ -6,7 +6,10 @@
     <div class="alert alert-info" *ngIf="info">
       <p>{{info}}</p>
     </div>
-    <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
+    <div style="text-align: center" *ngIf="isLoading">
+      <app-loading-spinner></app-loading-spinner>
+    </div>
+    <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)" *ngIf="!isLoading">
       <div class="form-group">
         <label for="username">Username</label>
         <input
